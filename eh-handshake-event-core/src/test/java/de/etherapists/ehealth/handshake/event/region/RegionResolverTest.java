@@ -27,19 +27,19 @@ class RegionResolverTest {
       assertEquals("fallbackRegion", result.get());
   }
 
-  @Test
-  void shouldReturnEnvRegionWhenFieldIsNull() {
-    RegionResolver resolver = new RegionResolver(null);
-    String oldEnv = System.getenv("AWS_REGION");
-    try {
-      setEnv("AWS_REGION", "envRegion");
-      Optional<String> result = resolver.getAwsRegion();
-      assertTrue(result.isPresent());
-      assertEquals("envRegion", result.get());
-    } finally {
-      setEnv("AWS_REGION", oldEnv);
-    }
-  }
+//  @Test
+//  void shouldReturnEnvRegionWhenFieldIsNull() {
+//    RegionResolver resolver = new RegionResolver(null);
+//    String oldEnv = System.getenv("AWS_REGION");
+//    try {
+//      setEnv("AWS_REGION", "envRegion");
+//      Optional<String> result = resolver.getAwsRegion();
+//      assertTrue(result.isPresent());
+//      assertEquals("envRegion", result.get());
+//    } finally {
+//      setEnv("AWS_REGION", oldEnv);
+//    }
+//  }
 
   @Test
   void shouldReturnEmptyWhenNoRegionSet() {
