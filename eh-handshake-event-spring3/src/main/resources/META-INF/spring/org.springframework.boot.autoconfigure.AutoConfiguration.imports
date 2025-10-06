@@ -1,0 +1,3 @@
+de.etherapists.ehealth.handshake.event.config.ClockConfiguration
+de.etherapists.ehealth.handshake.event.config.SqsConfiguration
+de.etherapists.ehealth.handshake.event.config.IdGeneratorConfiguration

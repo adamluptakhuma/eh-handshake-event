@@ -1,0 +1,4 @@
+ehealth:
+  handshake:
+    sqs:
+     handshake-queue-url: local-b2c-handshake
