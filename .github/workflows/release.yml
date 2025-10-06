@@ -5,6 +5,10 @@ on:
     tags:
       - '*.*.*'
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -25,10 +29,13 @@ jobs:
 
       - name: Set version from tag
         run: |
-          TAG_NAME=${GITHUB_REF_NAME}          # Gives only '1.0.0'
-          TAG_NAME=${TAG_NAME#v}               # Removes leading 'v' if tag is like 'v1.0.0'
+          TAG_NAME=${GITHUB_REF_NAME}
+          TAG_NAME=${TAG_NAME#v}
           echo "Setting Maven version to $TAG_NAME"
           mvn versions:set -DnewVersion=$TAG_NAME
+
+      - name: Verify new version
+        run: mvn help:evaluate -Dexpression=project.version -q -DforceStdout
 
       - name: Build
         run: mvn -B clean package -DskipTests
