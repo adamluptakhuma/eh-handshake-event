@@ -25,8 +25,10 @@ jobs:
 
       - name: Set version from tag
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          mvn versions:set -DnewVersion=$VERSION
+          TAG_NAME=${GITHUB_REF_NAME}          # Gives only '1.0.0'
+          TAG_NAME=${TAG_NAME#v}               # Removes leading 'v' if tag is like 'v1.0.0'
+          echo "Setting Maven version to $TAG_NAME"
+          mvn versions:set -DnewVersion=$TAG_NAME
 
       - name: Build
         run: mvn -B clean package -DskipTests
