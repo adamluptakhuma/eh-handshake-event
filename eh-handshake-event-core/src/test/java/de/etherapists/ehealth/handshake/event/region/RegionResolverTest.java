@@ -12,62 +12,47 @@ class RegionResolverTest {
 
   @Test
   void shouldReturnMappedRegionWhenCountryIsMapped() {
-      RegionResolver resolver = new RegionResolver("defaultRegion");
-      Optional<String> result = resolver.resolve("DE");
-      assertTrue(result.isPresent());
-      assertEquals("defaultRegion", result.get());
-
+    RegionResolver resolver = new RegionResolver("defaultRegion");
+    Optional<String> result = resolver.resolve("DE");
+    assertTrue(result.isPresent());
+    assertEquals("defaultRegion", result.get());
   }
 
   @Test
   void shouldReturnAwsRegionWhenCountryNotMapped() {
-      RegionResolver resolver = new RegionResolver("fallbackRegion");
-      Optional<String> result = resolver.resolve("FR");
-      assertTrue(result.isPresent());
-      assertEquals("fallbackRegion", result.get());
+    RegionResolver resolver = new RegionResolver("fallbackRegion");
+    Optional<String> result = resolver.resolve("FR");
+    assertTrue(result.isPresent());
+    assertEquals("fallbackRegion", result.get());
   }
-
-//  @Test
-//  void shouldReturnEnvRegionWhenFieldIsNull() {
-//    RegionResolver resolver = new RegionResolver(null);
-//    String oldEnv = System.getenv("AWS_REGION");
-//    try {
-//      setEnv("AWS_REGION", "envRegion");
-//      Optional<String> result = resolver.getAwsRegion();
-//      assertTrue(result.isPresent());
-//      assertEquals("envRegion", result.get());
-//    } finally {
-//      setEnv("AWS_REGION", oldEnv);
-//    }
-//  }
 
   @Test
-  void shouldReturnEmptyWhenNoRegionSet() {
+  void shouldReturnEnvRegionWhenAwsRegionFieldIsNull() {
+    // given
+    System.setProperty("AWS_REGION", "envRegion");
+
+    // when
     RegionResolver resolver = new RegionResolver(null);
-    String oldEnv = System.getenv("AWS_REGION");
-    try {
-      setEnv("AWS_REGION", "");
-      Optional<String> result = resolver.getAwsRegion();
-      assertTrue(result.isEmpty());
-    } finally {
-      setEnv("AWS_REGION", oldEnv);
-    }
+    Optional<String> result = resolver.getAwsRegion();
+
+    // then
+    assertTrue(result.isPresent());
+    assertEquals("envRegion", result.get());
+
+    // cleanup
+    System.clearProperty("AWS_REGION");
   }
 
-  // Helper to set environment variable (works only in some JVMs, for test only)
-  private static void setEnv(String key, String value) {
-    try {
-      java.util.Map<String, String> env = System.getenv();
-      java.lang.reflect.Field field = env.getClass().getDeclaredField("m");
-      field.setAccessible(true);
-      @SuppressWarnings("unchecked")
-      java.util.Map<String, String> writableEnv = (java.util.Map<String, String>) field.get(env);
-      if (value == null) {
-        writableEnv.remove(key);
-      } else {
-        writableEnv.put(key, value);
-      }
-    } catch (Exception ignored) {
-    }
+  @Test
+  void shouldReturnEmptyWhenNoRegionConfigured() {
+    // given
+    System.clearProperty("AWS_REGION");
+
+    // when
+    RegionResolver resolver = new RegionResolver(null);
+    Optional<String> result = resolver.getAwsRegion();
+
+    // then
+    assertTrue(result.isEmpty());
   }
 }

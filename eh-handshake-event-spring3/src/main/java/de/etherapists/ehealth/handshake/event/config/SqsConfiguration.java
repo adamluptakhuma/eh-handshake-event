@@ -18,12 +18,10 @@ public class SqsConfiguration {
 
   @Value("${ehealth.handshake.sqs.handshake-queue-url}")
   private String handshakeQueueUrl;
-  
+
   @Bean
   public SqsClient sqsClient() {
-    return SqsClient.builder()
-        .region(Region.of(region))
-        .build();
+    return SqsClient.builder().region(Region.of(region)).build();
   }
 
   @Bean

@@ -28,7 +28,8 @@ class ActivationCodeEventMessagePublisherTest {
 
   @BeforeEach
   void setUp() {
-    publisher = new ActivationCodeEventMessagePublisher(eventMessagePublisher, utcClock, idGenerator);
+    publisher =
+        new ActivationCodeEventMessagePublisher(eventMessagePublisher, utcClock, idGenerator);
   }
 
   @Test

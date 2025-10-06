@@ -21,7 +21,7 @@ public class CompanyEventMessagePublisher {
 
   public SendEventMessageResult publishCompanyCreated(CompanyCreatedPayload payload) {
 
-      if (StringUtils.isEmpty(payload.getAwsRegion())) {
+    if (StringUtils.isEmpty(payload.getAwsRegion())) {
       log.warn(
           "No AWS region resolved for company {} – skipping event emission",
           payload.getCompanyId());
