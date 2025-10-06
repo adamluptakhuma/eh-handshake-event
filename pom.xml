@@ -15,4 +15,13 @@
         <module>eh-handshake-event-spring3</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/adamluptakhuma/eh-handshake-event</url>
+        </repository>
+    </distributionManagement>
+
+
 </project>
